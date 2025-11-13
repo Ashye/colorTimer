@@ -1,0 +1,21 @@
+{
+  "appTitle": "Flow Timer",
+  "start": "Start",
+  "reset": "Reset",
+  "seconds": "sec",
+  "noTimersTitle": "No Timers",
+  "noTimersSubtitle": "Add a timer strip to begin.",
+  "timerNamePlaceholder": "Timer Name",
+  "editTimerNameLabel": "Edit timer name",
+  "removeTimerLabel": "Remove timer",
+  "addRedTimer": "Add Red Timer",
+  "addBlueTimer": "Add Blue Timer",
+  "addGreenTimer": "Add Green Timer",
+  "addYellowTimer": "Add Yellow Timer",
+  "addPurpleTimer": "Add Purple Timer",
+  "addPinkTimer": "Add Pink Timer",
+  "langToggle": "中",
+  "minutes": "min",
+  "minutesLabel": "Timer minutes",
+  "secondsLabel": "Timer seconds"
+}

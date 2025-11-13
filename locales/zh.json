@@ -1,0 +1,21 @@
+{
+  "appTitle": "流水计时器",
+  "start": "开始",
+  "reset": "重置",
+  "seconds": "秒",
+  "noTimersTitle": "无计时器",
+  "noTimersSubtitle": "添加一个计时条以开始。",
+  "timerNamePlaceholder": "计时器名称",
+  "editTimerNameLabel": "编辑计时器名称",
+  "removeTimerLabel": "移除计时器",
+  "addRedTimer": "添加红色计时器",
+  "addBlueTimer": "添加蓝色计时器",
+  "addGreenTimer": "添加绿色计时器",
+  "addYellowTimer": "添加黄色计时器",
+  "addPurpleTimer": "添加紫色计时器",
+  "addPinkTimer": "添加粉色计时器",
+  "langToggle": "EN",
+  "minutes": "分",
+  "minutesLabel": "计时器分钟",
+  "secondsLabel": "计时器秒钟"
+}

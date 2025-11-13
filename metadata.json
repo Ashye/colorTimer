@@ -1,5 +1,5 @@
 {
-  "name": "Traffic Light Strip Timer",
-  "description": "A sequential timer application that visualizes countdowns as colored strips, similar to traffic lights. Users can add multiple timers, set their durations, and start a sequence. When one timer ends, the next begins automatically. The application features controls to start, reset, add, and remove timer strips.",
+  "name": "Flow Timer",
+  "description": "A minimalist sequential timer for managing focus, breaks, and workflows. Create and customize colored timer strips that run one after another.",
   "requestFramePermissions": []
 }

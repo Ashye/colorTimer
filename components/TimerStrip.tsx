@@ -11,6 +11,7 @@ interface TimerStripProps {
   onRemove: (id: string) => void;
   onDurationChange: (id: string, newDuration: number) => void;
   onNameChange: (id: string, newName: string) => void;
+  t: (key: string) => string;
 }
 
 const formatTime = (seconds: number): string => {
@@ -28,6 +29,7 @@ const TimerStrip: React.FC<TimerStripProps> = ({
   onRemove,
   onDurationChange,
   onNameChange,
+  t,
 }) => {
   
   const getProgress = (): number => {
@@ -39,10 +41,29 @@ const TimerStrip: React.FC<TimerStripProps> = ({
   
   const progress = getProgress();
 
-  const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newDuration = parseInt(e.target.value, 10);
-    if (!isNaN(newDuration) && newDuration > 0) {
-      onDurationChange(timer.id, newDuration);
+  const displayMinutes = Math.floor(timer.duration / 60);
+  const displaySeconds = timer.duration % 60;
+
+  const handleMinutesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const currentSeconds = timer.duration % 60;
+    const newMinutesValue = e.target.value;
+    const newMinutes = newMinutesValue === '' ? 0 : parseInt(newMinutesValue, 10);
+    
+    if (!isNaN(newMinutes) && newMinutes >= 0) {
+      const newDuration = newMinutes * 60 + currentSeconds;
+      onDurationChange(timer.id, newDuration >= 1 ? newDuration : 1);
+    }
+  };
+
+  const handleSecondsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const currentMinutes = Math.floor(timer.duration / 60);
+    const newSecondsValue = e.target.value;
+    let newSeconds = newSecondsValue === '' ? 0 : parseInt(newSecondsValue, 10);
+
+    if (!isNaN(newSeconds) && newSeconds >= 0) {
+      if (newSeconds > 59) newSeconds = 59;
+      const newDuration = currentMinutes * 60 + newSeconds;
+      onDurationChange(timer.id, newDuration >= 1 ? newDuration : 1);
     }
   };
 
@@ -65,23 +86,35 @@ const TimerStrip: React.FC<TimerStripProps> = ({
                 type="text"
                 value={timer.name}
                 onChange={handleNameChange}
+                placeholder={t('timerNamePlaceholder')}
                 className="w-24 bg-gray-700 text-white p-1 rounded border border-gray-600 text-lg font-semibold"
-                aria-label={`Edit name for timer ${timer.name}`}
+                aria-label={t('editTimerNameLabel')}
             />
         ) : (
             <span className={`w-24 text-lg font-semibold truncate`}>{timer.name}</span>
         )}
         
         {isEditing ? (
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1 text-sm">
             <input
               type="number"
-              value={timer.duration}
-              onChange={handleDurationChange}
-              className="w-20 bg-gray-700 text-white p-1 rounded border border-gray-600 text-center"
-              min="1"
+              value={displayMinutes}
+              onChange={handleMinutesChange}
+              className="w-12 bg-gray-700 text-white p-1 rounded border border-gray-600 text-center"
+              min="0"
+              aria-label={t('minutesLabel')}
             />
-            <span className="text-sm">seconds</span>
+            <span>{t('minutes')}</span>
+            <input
+              type="number"
+              value={displaySeconds}
+              onChange={handleSecondsChange}
+              className="w-12 bg-gray-700 text-white p-1 rounded border border-gray-600 text-center"
+              min="0"
+              max="59"
+              aria-label={t('secondsLabel')}
+            />
+            <span>{t('seconds')}</span>
           </div>
         ) : (
           <span className="text-3xl font-mono font-bold">
@@ -94,7 +127,7 @@ const TimerStrip: React.FC<TimerStripProps> = ({
         <button
           onClick={() => onRemove(timer.id)}
           className="relative z-10 p-2 rounded-full bg-red-500/50 hover:bg-red-500 text-white transition-colors"
-          aria-label={`Remove ${timer.name} timer`}
+          aria-label={t('removeTimerLabel')}
         >
           <TrashIcon />
         </button>

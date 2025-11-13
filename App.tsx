@@ -2,12 +2,14 @@ import React, { useState, useEffect, useCallback } from 'react';
 import type { Timer } from './types';
 import TimerStrip from './components/TimerStrip';
 import Controls from './components/Controls';
+import { useLocalization } from './hooks/useLocalization';
 
 const App: React.FC = () => {
+  const { language, toggleLanguage, t } = useLocalization();
+
   const [timers, setTimers] = useState<Timer[]>([
-    { id: crypto.randomUUID(), duration: 25, color: 'bg-rose-500', name: 'Focus' },
-    { id: crypto.randomUUID(), duration: 5, color: 'bg-amber-500', name: 'Break' },
-    { id: crypto.randomUUID(), duration: 15, color: 'bg-sky-500', name: 'Review' },
+    { id: crypto.randomUUID(), duration: 25, color: 'bg-rose-500', name: '' },
+    { id: crypto.randomUUID(), duration: 15, color: 'bg-sky-500', name: '' },
   ]);
 
   const [isRunning, setIsRunning] = useState<boolean>(false);
@@ -51,12 +53,12 @@ const App: React.FC = () => {
     }
   };
 
-  const handleAddTimer = (color: string, name: string) => {
+  const handleAddTimer = (color: string) => {
     const newTimer: Timer = {
       id: crypto.randomUUID(),
       duration: 30,
       color,
-      name,
+      name: '',
     };
     setTimers([...timers, newTimer]);
   };
@@ -80,15 +82,19 @@ const App: React.FC = () => {
   const isEditing = !isRunning;
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8 font-sans">
+    <div className="min-h-screen flex flex-col items-center justify-start sm:justify-center p-4 sm:p-6 lg:p-8 font-sans">
       <div className="w-full max-w-2xl mx-auto">
-        <header className="text-center mb-8">
+        <header className="text-center mb-8 relative">
           <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight">
-            Traffic Light Strip Timer
+            {t('appTitle')}
           </h1>
-          <p className="text-gray-400 mt-2">
-            {isEditing ? 'Set up your timers below or press Start.' : 'Timer sequence is running...'}
-          </p>
+          <button 
+            onClick={toggleLanguage} 
+            className="absolute top-1/2 -translate-y-1/2 right-0 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+            aria-label="Toggle language"
+          >
+            {t('langToggle')}
+          </button>
         </header>
 
         <main className="w-full">
@@ -104,12 +110,13 @@ const App: React.FC = () => {
                 onRemove={handleRemoveTimer}
                 onDurationChange={handleDurationChange}
                 onNameChange={handleNameChange}
+                t={t}
               />
             ))
           ) : (
             <div className="text-center text-gray-500 bg-gray-800 p-8 rounded-lg">
-                <p>No timers configured.</p>
-                <p>Add a new timer strip to begin.</p>
+                <p className="font-semibold text-lg">{t('noTimersTitle')}</p>
+                <p>{t('noTimersSubtitle')}</p>
             </div>
           )}
         </main>
@@ -121,6 +128,7 @@ const App: React.FC = () => {
                 onStart={handleStart}
                 onReset={handleReset}
                 onAddTimer={handleAddTimer}
+                t={t}
             />
         </footer>
       </div>
