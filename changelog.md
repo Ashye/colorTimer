@@ -9,3 +9,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added chinese and english
+- Added SEO meta tags for improved search engine visibility and social sharing (2024-07-26)
